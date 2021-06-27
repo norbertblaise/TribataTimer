@@ -38,7 +38,7 @@
     </fragment>
     <fragment
         android:id="@+id/myWorkoutsFragment"
-        android:name="com.blaise.tribatatimer.MyWorkoutsFragment"
+        android:name="com.blaise.tribatatimer.workouts.MyWorkoutsFragment"
         android:label="my_workouts_fragment"
         tools:layout="@layout/my_workouts_fragment" />
 </navigation>

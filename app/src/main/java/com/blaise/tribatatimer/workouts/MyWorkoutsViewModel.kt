@@ -1,4 +1,4 @@
-package com.blaise.tribatatimer
+package com.blaise.tribatatimer.workouts
 
 import androidx.lifecycle.ViewModel
 

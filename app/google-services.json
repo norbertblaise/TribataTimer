@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "784592711576",
+    "project_id": "tribata-timer",
+    "storage_bucket": "tribata-timer.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:784592711576:android:11e0941ff613b9a8cc05ed",
+        "android_client_info": {
+          "package_name": "com.blaise.tribatatimer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "784592711576-c0v9f342ho0n8f349cvvvj3odp7l170r.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.blaise.tribatatimer",
+            "certificate_hash": "10a593dd125742ee00604aed8c66b305bd695cea"
+          }
+        },
+        {
+          "client_id": "784592711576-t6g9q9n8r99219pvut6o2p8njmqb63ub.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB3fxeeFuaTO9-2cernjqYAvt1a543HCd4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "784592711576-t6g9q9n8r99219pvut6o2p8njmqb63ub.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
