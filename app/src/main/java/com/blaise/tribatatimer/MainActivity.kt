@@ -1,5 +1,6 @@
 package com.blaise.tribatatimer
 
+import android.os.Build
 import android.os.Bundle
 import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
@@ -25,6 +26,9 @@ class MainActivity : AppCompatActivity() {
 
         setSupportActionBar(binding.toolbar)
         supportActionBar?.hide()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            window?.setDecorFitsSystemWindows(false)
+        }
         // This is used to hide the status bar and make
 //        // the splash screen as a full screen activity.
 //        window.setFlags(

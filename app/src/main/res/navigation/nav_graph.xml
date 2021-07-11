@@ -35,10 +35,100 @@
             app:destination="@id/myWorkoutsFragment"
             app:popUpTo="@+id/splashScreenFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_splashScreenFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_splashScreenFragment_to_registerFragment"
+            app:destination="@id/registerFragment" />
     </fragment>
     <fragment
         android:id="@+id/myWorkoutsFragment"
-        android:name="com.blaise.tribatatimer.workouts.MyWorkoutsFragment"
-        android:label="my_workouts_fragment"
-        tools:layout="@layout/my_workouts_fragment" />
+        android:name="com.blaise.tribatatimer.myworkouts.MyWorkoutsFragment"
+        android:label="My Workouts"
+        tools:layout="@layout/my_workouts_fragment" >
+        <action
+            android:id="@+id/action_myWorkoutsFragment_to_currentSessionFragment"
+            app:destination="@id/currentSessionFragment" />
+        <action
+            android:id="@+id/action_myWorkoutsFragment_to_onboardingFragment"
+            app:destination="@id/onboardingFragment" />
+        <action
+            android:id="@+id/action_myWorkoutsFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_myWorkoutsFragment_to_newWorkoutBottomSheetDialog"
+            app:destination="@id/newWorkoutBottomSheetDialog" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.blaise.tribatatimer.auth.LoginFragment"
+        android:label="login_fragment"
+        tools:layout="@layout/login_fragment" >
+        <action
+            android:id="@+id/action_loginFragment_to_registerFragment"
+            app:destination="@id/registerFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_myWorkoutsFragment"
+            app:destination="@id/myWorkoutsFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_registerFragment2"
+            app:destination="@id/registerFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="com.blaise.tribatatimer.auth.RegisterFragment"
+        android:label="register_fragment"
+        tools:layout="@layout/register_fragment" >
+        <action
+            android:id="@+id/action_registerFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_registerFragment_to_myWorkoutsFragment"
+            app:destination="@id/myWorkoutsFragment" />
+        <action
+            android:id="@+id/action_registerFragment_to_termsFragment"
+            app:destination="@id/termsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/termsFragment"
+        android:name="com.blaise.tribatatimer.auth.TermsFragment"
+        android:label="fragment_terms"
+        tools:layout="@layout/fragment_terms" >
+        <action
+            android:id="@+id/action_termsFragment_to_onboardingFragment"
+            app:destination="@id/onboardingFragment" />
+        <action
+            android:id="@+id/action_termsFragment_to_registerFragment"
+            app:destination="@id/registerFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/currentSessionFragment"
+        android:name="com.blaise.tribatatimer.session.CurrentSessionFragment"
+        android:label="current_session_fragment"
+        tools:layout="@layout/current_session_fragment" >
+        <action
+            android:id="@+id/action_currentSessionFragment_to_myWorkoutsFragment"
+            app:destination="@id/myWorkoutsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/onboardingFragment"
+        android:name="com.blaise.tribatatimer.auth.OnboardingFragment"
+        android:label="onboarding_fragment"
+        tools:layout="@layout/onboarding_fragment" >
+        <action
+            android:id="@+id/action_onboardingFragment_to_myWorkoutsFragment"
+            app:destination="@id/myWorkoutsFragment" />
+        <action
+            android:id="@+id/action_onboardingFragment_to_termsFragment"
+            app:destination="@id/termsFragment" />
+    </fragment>
+    <dialog
+        android:id="@+id/newWorkoutBottomSheetDialog"
+        android:name="com.blaise.tribatatimer.myworkouts.NewWorkoutBottomSheetDialog"
+        android:label="NewWorkoutBottomSheetDialog" >
+        <action
+            android:id="@+id/action_newWorkoutBottomSheetDialog_to_myWorkoutsFragment"
+            app:destination="@id/myWorkoutsFragment" />
+    </dialog>
 </navigation>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--Shape Appearance for small components like chips, buttons, text fields and FABs-->
+    <style name="ShapeAppearance.MyTheme.SmallComponent" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+        <!--Your custom shape here-->
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">12dp</item>
+        <item name="strokeColor">@color/orange_500</item>
+        <item name="height">@dimen/input_field_height</item>
+
+
+    </style>
+
+    <!--Shape Appearance for medium components like cards, alert dialogs-->
+    <style name="ShapeAppearance.MyTheme.MediumComponent" parent="ShapeAppearance.MaterialComponents.MediumComponent">
+        <!--Your custom shape here-->
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">12dp</item>
+        <item name="hintTextColor">#757575</item>
+    </style>
+
+    <!--Shape Appearance for large components like side and bottom navigation drawers-->
+    <style name="ShapeAppearance.MyTheme.LargeComponent" parent="ShapeAppearance.MaterialComponents.LargeComponent">
+        <!--Your custom shape here-->
+    </style>
+
+    <!--Shape Appearance overlay for ShapeableImageView -->
+    <style name="ShapeAppearanceOverlay.MyTheme.Image" parent="">
+        <item name="cornerSize">0dp</item>
+        <item name="cornerSizeTopLeft">50%</item>
+    </style>
+</resources>

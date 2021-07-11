@@ -12,11 +12,21 @@ import android.widget.TextView
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.blaise.tribatatimer.databinding.FragmentSplashScreenBinding
+import com.blaise.tribatatimer.util.FirebaseUtil
+import com.blaise.tribatatimer.util.JavaFirebaseUtil
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 
 class SplashScreenFragment : Fragment() {
+    //firebase variables
+    private lateinit var mAuth: FirebaseAuth
+    private lateinit var loggedUser: FirebaseUser
+    val gotoSplashScreenFragment = SplashScreenFragmentDirections.actionSplashScreenFragmentToLoginFragment()
+    val gotoMyWorkoutsFragment = SplashScreenFragmentDirections.actionSplashScreenFragmentToMyWorkoutsFragment()
 
     //only valid between onCreateVIew() and OnDestroyView()
     private var _binding: FragmentSplashScreenBinding? = null
@@ -41,6 +51,8 @@ class SplashScreenFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        mAuth = FirebaseAuth.getInstance()
 
         //set up animation on logo image
         val appLogo: ImageView = binding.splashScreenImage
@@ -70,7 +82,17 @@ class SplashScreenFragment : Fragment() {
         //detail transition by 5 second
         lifecycleScope.launch {
             delay(5000)
-            findNavController().navigate(R.id.action_splashScreenFragment_to_myWorkoutsFragment)
+            //check if user is signed in, if not, thentake them to sign in page else take them to workouts page
+//            val currentUser = FirebaseUtil.mAuth.currentUser
+//            if( currentUser != null) {
+//                findNavController().navigate(R.id.action_splashScreenFragment_to_myWorkoutsFragment)
+//            }else{
+//                findNavController().navigate(R.id.action_splashScreenFragment_to_loginFragment)
+//            }
+
+            // Check if user is signed in (non-null) and update UI accordingly.
+            findNavController().navigate(gotoMyWorkoutsFragment)
+
         }
     }
 

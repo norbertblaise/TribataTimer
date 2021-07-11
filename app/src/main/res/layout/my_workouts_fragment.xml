@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/background"
     android:paddingTop="24dp"
-    tools:context=".workouts.MyWorkoutsFragment">
+    tools:context=".myworkouts.MyWorkoutsFragment">
 
 
 
@@ -102,5 +102,13 @@
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 
     </com.google.android.material.appbar.AppBarLayout>
-
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/new_workout_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_margin="16dp"
+        app:backgroundTint="@color/orange_500"
+        app:tint="@color/white"
+        app:srcCompat="@drawable/ic_plus"/>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

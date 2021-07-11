@@ -14,6 +14,10 @@
     <color name="blue_grey_700">#FF051621</color>
     <color name="blue_black">#11161D</color>
 
+    <color name="hint_grey">#757575</color>
+
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="mtrl_textinput_default_box_stroke_color">@color/orange_500</color>
+
 </resources>
