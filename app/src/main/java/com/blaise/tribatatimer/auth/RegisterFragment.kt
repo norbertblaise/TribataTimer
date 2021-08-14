@@ -1,5 +1,7 @@
 package com.blaise.tribatatimer.auth
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.text.TextUtils
@@ -18,7 +20,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import org.w3c.dom.Text
 
-class RegisterFragment : Fragment() {
+class  RegisterFragment : Fragment() {
     private lateinit var mAuth: FirebaseAuth
     private lateinit var loggedUser: FirebaseUser
 
@@ -103,9 +105,23 @@ class RegisterFragment : Fragment() {
                 emailLayout.setError("Required Field")
             }else if (TextUtils.isEmpty(password)){
                 passwordLayout.setError("Required Field")
-            }else{
+            }else {
                 val user = User(firstName, lastName, username, email, country)
-                createUser(user, email, password)
+
+                var dialogBuilder = AlertDialog.Builder(activity)
+                dialogBuilder.setTitle("Privacy Policy")
+                dialogBuilder.setMessage("By signing up you agree to are Terms of Service and Privacy policy")
+                dialogBuilder.setPositiveButton("Agree", DialogInterface.OnClickListener{ dialog, id ->
+                    createUser(user, email, password)
+                    dialog.cancel()
+                })
+                dialogBuilder.setNegativeButton("Disagree", DialogInterface.OnClickListener{ dialog, id ->
+
+                    dialog.cancel()
+                })
+
+                var policyAgreeDialog : AlertDialog = dialogBuilder.create()
+                policyAgreeDialog.show()
             }
 
         }

@@ -1,13 +1,14 @@
 package com.blaise.tribatatimer.session
 
+
 data class Workout(
-    val workoutName: String,
-    val warmUp: String,
-    val workDuration: String,
-    val restDuration: String,
-    val numExercises: String,
-    val numSets: String,
-    val restBtwnSets: String
+    val workoutName: String? = null,
+    val warmUp: String?= null,
+    val workDuration: String? = null,
+    val restDuration: String? = null,
+    val numExercises: String? = null,
+    val numSets: String? = null,
+    val restBtwnSets: String? = null
 ) {
-    var workoutId: String? = null
+    var userId: String? = null
 }

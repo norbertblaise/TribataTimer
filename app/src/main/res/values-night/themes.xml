@@ -1,16 +1,78 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Theme.TribataTimer" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <!-- Primary brand color. -->
         <item name="colorPrimary">@color/orange_500</item>
         <item name="colorPrimaryVariant">@color/orange_700</item>
-        <item name="colorOnPrimary">@color/black</item>
+        <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/lime_500</item>
-        <item name="colorSecondaryVariant">@color/lime_500</item>
+        <item name="colorSecondaryVariant">@color/lime_700</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">@color/blue_grey_700</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="actionOverflowButtonStyle">@style/OverFlow</item>
         <!-- Customize your theme here. -->
+    </style>
+
+
+
+        <style name="Theme.TribataTimer.NoActionBar" >
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+    <style name="OverFlow" parent="@style/Widget.AppCompat.Light.ActionButton.Overflow">
+        <item name="android:src">@drawable/ic_overflow</item>
+    </style>
+
+    <style name="Theme.TribataTimer.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.TribataTimer.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+<!--Firebase Login UI-->
+    <style name="FirebaseUITheme" parent="FirebaseUI">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/orange_500</item>
+        <item name="colorPrimaryVariant">@color/orange_700</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <!-- Secondary brand color. -->
+        <item name="colorButtonNormal">@color/orange_500</item>
+        <item name="colorControlNormal">@color/orange_500</item>
+        <item name="colorControlActivated">@color/orange_500</item>
+
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowBackground">@drawable/background</item>
+        <item name="android:textColorHint">@color/grey_500</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="android:textColorSecondary">@color/white</item>
+    </style>
+    <!--Material shape attributes-->
+   <!-- <item name="shapeAppear">@style/ShapeAppearance.MyTheme.SmallComponent</item>
+    <item name="ShapeAppearanceMediumComponent">@style/ShapeAppearance.MyTheme.MediumComponent</item>
+    <item name="ShapeAppearanceLargeComponent">@style/ShapeAppearance.MyTheme.LargeComponent</item>-->
+    <style name="TextInputLayoutStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+        <item name="boxStrokeColor">@color/white</item>
+        <item name="boxStrokeWidth">2dp</item>
+    </style>
+
+    <style name="ShapeAppearanceOverlay.Demo" parent="">
+        <item name="cornerSize">8dp</item>
+        <item name="cornerFamily">rounded</item>
+    </style>
+
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="bottomSheetDialogTheme">@style/ThemeOverlay.Demo.BottomSheetDialog</item>
+    </style>
+
+    <style
+        name="ThemeOverlay.Demo.BottomSheetDialog"
+        parent="@style/ThemeOverlay.MaterialComponents.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/Widget.Demo.BottomSheet</item>
+    </style>
+
+    <style name="Widget.Demo.BottomSheet" parent="Widget.MaterialComponents.BottomSheet">
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay.Demo</item>
     </style>
 </resources>

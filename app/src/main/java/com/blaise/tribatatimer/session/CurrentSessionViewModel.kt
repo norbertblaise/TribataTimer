@@ -4,4 +4,5 @@ import androidx.lifecycle.ViewModel
 
 class CurrentSessionViewModel : ViewModel() {
     // TODO: Implement the ViewModel
+
 }

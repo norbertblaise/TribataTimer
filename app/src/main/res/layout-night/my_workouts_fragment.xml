@@ -72,6 +72,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:elevation="0dp"
+
             android:textAlignment="viewStart"
             android:fitsSystemWindows="true"
             app:collapsedTitleTextAppearance="@style/TextAppearance.App.CollapsingToolbar.Collapsed"
@@ -96,6 +97,7 @@
                 app:layout_scrollFlags="scroll|enterAlways|snap"
                 app:liftOnScroll="true"
                 app:menu="@menu/top_app_bar"
+                app:titleTextColor="@color/white"
                 app:title="@string/my_workouts"
 
                 />

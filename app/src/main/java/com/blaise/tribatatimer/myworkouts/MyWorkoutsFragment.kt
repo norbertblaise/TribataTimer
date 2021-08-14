@@ -11,6 +11,7 @@ import android.widget.EditText
 import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.widget.NestedScrollView
 import androidx.navigation.NavController
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
@@ -21,15 +22,18 @@ import androidx.recyclerview.widget.RecyclerView
 import com.blaise.tribatatimer.R
 import com.blaise.tribatatimer.databinding.MyWorkoutsFragmentBinding
 import com.blaise.tribatatimer.session.Workout
+import com.blaise.tribatatimer.util.Communicator
 import com.blaise.tribatatimer.util.JavaFirebaseUtil
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 
-class MyWorkoutsFragment : Fragment() {
+class MyWorkoutsFragment : Fragment(), Communicator {
 
     //only valid between on create and on destroy
     private var _binding: MyWorkoutsFragmentBinding? = null
@@ -39,11 +43,13 @@ class MyWorkoutsFragment : Fragment() {
     private lateinit var mAuth: FirebaseAuth
     private lateinit var loggedUser: FirebaseUser
 
-    private val db = JavaFirebaseUtil.firestoreDb
-    private val workoutsRef = JavaFirebaseUtil.workoutsCollectionRef
-    private lateinit var myWorkoutsAdapter: MyWorkoutsAdapter
+    private val db = FirebaseFirestore.getInstance()
+    private lateinit var workoutsRef: CollectionReference
+//    private lateinit var myWorkoutsAdapter: MyWorkoutsFirestoreAdapter
+
 
     private lateinit var workoutsRecyclerView: RecyclerView
+    private lateinit var noDataScrollview: NestedScrollView
 
     private lateinit var gotoLoginFragment: NavDirections
 
@@ -55,13 +61,10 @@ class MyWorkoutsFragment : Fragment() {
     private lateinit var viewModel: MyWorkoutsViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         gotoLoginFragment = MyWorkoutsFragmentDirections.actionMyWorkoutsFragmentToLoginFragment()
 
         requireActivity().window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_VISIBLE
         mAuth = FirebaseAuth.getInstance()
-
-
     }
 
     override fun onCreateView(
@@ -73,12 +76,17 @@ class MyWorkoutsFragment : Fragment() {
         viewModel = ViewModelProvider(this).get(MyWorkoutsViewModel::class.java)
         JavaFirebaseUtil.openFBReference("Users", activity)
 
+
+        if (mAuth.currentUser != null) {
+            loggedUser = JavaFirebaseUtil.currentUser
+            workoutsRef = JavaFirebaseUtil.myWorkoutsRef
+        }
+
         //initialize views
-        val scrollview = binding.noDataScrollView
+        noDataScrollview = binding.noDataScrollView
         workoutsRecyclerView = binding.workoutRecylerView
         val fab = binding.newWorkoutFab
 
-        setUpRecyclerView()
 
         //setfab onclick listener
         fab.setOnClickListener {
@@ -89,7 +97,8 @@ class MyWorkoutsFragment : Fragment() {
             //initialize all dialog buttons and inputs
             val workoutNameEditText = view.findViewById<EditText>(R.id.workout_name_editText)
             val warmupDurationEditText = view.findViewById<EditText>(R.id.warm_up_editText)
-            val workoutDurationEditText = view.findViewById<EditText>(R.id.workout_duration_editText)
+            val workoutDurationEditText =
+                view.findViewById<EditText>(R.id.workout_duration_editText)
             val restDurationEditText = view.findViewById<EditText>(R.id.rest_duration_editText)
             val numExercisesEditText = view.findViewById<EditText>(R.id.exercises_editText)
             val numSetsEditText = view.findViewById<EditText>(R.id.numSets_editText)
@@ -105,7 +114,8 @@ class MyWorkoutsFragment : Fragment() {
             val restLayout = view.findViewById<TextInputLayout>(R.id.rest_duration_textInput)
             val numExercisesLayout = view.findViewById<TextInputLayout>(R.id.exercises_textInput)
             val numSetsLayout = view.findViewById<TextInputLayout>(R.id.numSets_textInput)
-            val restBtwnSetsLayout = view.findViewById<TextInputLayout>(R.id.rest_btwn_sets_textInput)
+            val restBtwnSetsLayout =
+                view.findViewById<TextInputLayout>(R.id.rest_btwn_sets_textInput)
 
             //add a new workout object and add to firestore subcollection
             saveButton.setOnClickListener {
@@ -143,6 +153,7 @@ class MyWorkoutsFragment : Fragment() {
                         numSets,
                         restBtwnSets
                     )
+                    workout.userId = mAuth.currentUser?.uid
 
                     newWorkout(workout)
                     newWorkoutBottomSheet?.dismiss()
@@ -181,43 +192,68 @@ class MyWorkoutsFragment : Fragment() {
         (activity as AppCompatActivity).setSupportActionBar(mainToolbar)
         val navController = findNavController()
         val appBarConfiguration = AppBarConfiguration(setOf(R.id.myWorkoutsFragment))
-
-
         view.findViewById<Toolbar>(R.id.topAppBar)
             .setupWithNavController(navController, appBarConfiguration)
         if (!isNewOld()) {
             //open country and username dialog
 
         }
+//        setUpRecyclerView()
+        val workoutsAdapter: WorkoutsAdapter = WorkoutsAdapter(this)
+        workoutsRecyclerView.adapter = workoutsAdapter
+        workoutsRecyclerView.layoutManager =
+            LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+
+
     }
 
-//    private fun gotoOnboarding() {
-//        findNavController().navigate(R.id.action_myWorkoutsFragment_to_onboardingFragment)
-//    }
+    override fun passData(
+        warmupDuration: String,
+        workDuration: String,
+        restDuration: String,
+        restBetweenSets: String,
+        numExercises: String,
+        numSets: String
+    ) {
+        //navigate to CurrentSessionFragment passing the workout details`
+        val action = MyWorkoutsFragmentDirections.actionMyWorkoutsFragmentToCurrentSessionFragment(
+            warmupDuration,workDuration,restDuration,restBetweenSets,numExercises,numSets
+        )
+
+        findNavController().safeNavigate(action)
+    }
 
     private fun isNewOld(): Boolean {
         return viewModel.isNewOld()
     }
 
     private fun setUpRecyclerView() {
-        if (workoutsRef != null) {
-            val query: Query = workoutsRef.orderBy("WorkoutName", Query.Direction.ASCENDING)
-            val options: FirestoreRecyclerOptions<Workout> =
-                FirestoreRecyclerOptions.Builder<Workout>()
-                    .setQuery(query, Workout::class.java)
-                    .build()
+//        if (mAuth.currentUser != null) {
+//            Log.d(TAG, "setUpRecyclerView: workoutsRef is not null")
+////            workoutsRef = db.collection(JavaFirebaseUtil.USERS).document(loggedUser.uid).collection(JavaFirebaseUtil.MY_WORKOUTS)
+//            val query = workoutsRef.whereEqualTo("userId", mAuth.currentUser?.uid)
+//                .orderBy("workoutName", Query.Direction.ASCENDING)
+//            val options: FirestoreRecyclerOptions<Workout> =
+//                FirestoreRecyclerOptions.Builder<Workout>()
+//                    .setQuery(query, Workout::class.java)
+//                    .build()
+////            myWorkoutsAdapter = MyWorkoutsFirestoreAdapter(options)
+//
+////            workoutsRecyclerView.setHasFixedSize(true)
+//            workoutsRecyclerView.layoutManager =
+//                LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+//            workoutsRecyclerView.adapter = myWorkoutsAdapter
 
-            myWorkoutsAdapter = MyWorkoutsAdapter(options)
-
-            workoutsRecyclerView.setHasFixedSize(true)
-            workoutsRecyclerView.layoutManager = LinearLayoutManager(context)
-            workoutsRecyclerView.adapter = myWorkoutsAdapter
-        } else {
-            Log.d(Companion.TAG, "setUpRecyclerView: workoutsRef is null")
-
-
-        }
-
+            //hide illustration if there is data in the recyclerview
+//            if (myWorkoutsAdapter.itemCount == 0){
+//                noDataScrollview.visibility = View.GONE
+//                workoutsRecyclerView.visibility = View.VISIBLE
+//            }
+//        } else {
+//            Log.d(Companion.TAG, "setUpRecyclerView: workoutsRef is null")
+//
+//
+//        }
 
     }
 
@@ -261,17 +297,20 @@ class MyWorkoutsFragment : Fragment() {
         if (loggedUser == null) {
             findNavController().safeNavigate(gotoLoginFragment)
         }
-        if (workoutsRef != null) {
-            myWorkoutsAdapter.startListening()
-        }
+
+//        if (mAuth.currentUser != null) {
+//            myWorkoutsAdapter.startListening()
+//        }
 
     }
 
     override fun onStop() {
         super.onStop()
-        if (workoutsRef != null) {
-            myWorkoutsAdapter.stopListening()
-        }
+
+//        if (mAuth.currentUser != null) {
+//            myWorkoutsAdapter.stopListening()
+//        }
+
     }
 
     override fun onPause() {
@@ -291,7 +330,6 @@ class MyWorkoutsFragment : Fragment() {
 //                    Log.d(TAG, "onResume: action invalid")
 //                }
         }
-
 
         if (!isNewOld()) {
             //open country and username dialog

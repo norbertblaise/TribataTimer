@@ -11,16 +11,17 @@ import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -35,14 +36,14 @@ public class JavaFirebaseUtil {
     public static FirebaseFirestore firestoreDb;
     public static CollectionReference collectionReference;
     public static DocumentReference mUsersDocumentRef;
-    public static CollectionReference workoutsCollectionRef;
+    public static CollectionReference workoutsSubCollectionRef;
+    public static CollectionReference myWorkoutsRef;
+    public static ArrayList<Workout> mWorkouts;
 
     private static boolean[] userWasAdded = new boolean[1];
 
     //public static ArrayList<Scholarship> mScholarships;
     public static FirebaseUser currentUser;
-
-
 
     public static FirebaseAuth.AuthStateListener mAuthListener;
     public static FirebaseAuth.AuthStateListener mEmailVerified;
@@ -58,31 +59,38 @@ public class JavaFirebaseUtil {
             javaFirebaseUtil = new FirebaseUtil();
             firestoreDb = FirebaseFirestore.getInstance();
             mAuth = FirebaseAuth.getInstance();
+
             if (mAuth.getCurrentUser() != null){
                 currentUser = mAuth.getCurrentUser();
+
+
             }
            // mScholarships = new ArrayList<Scholarship>();
 
             caller = callerActivity;
-            mAuthListener = new FirebaseAuth.AuthStateListener() {
-                @Override
-                public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                    if (firebaseAuth.getCurrentUser() == null) {
-
-                    }
-                    Toast.makeText(callerActivity.getBaseContext(), "Welcome back!", Toast.LENGTH_LONG).show();
-
-
-                }
-            };
+//            mAuthListener = new FirebaseAuth.AuthStateListener() {
+////                @Override
+////                public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+////                    if (firebaseAuth.getCurrentUser() == null) {
+////
+////                    }
+////                    Toast.makeText(callerActivity.getBaseContext(), "Welcome back!", Toast.LENGTH_LONG).show();
+////
+////
+////                }
+//            };
 
 
 
 
         }
+        if(mAuth.getCurrentUser() != null){
+            mWorkouts = new ArrayList<Workout>();
+            workoutsSubCollectionRef = firestoreDb.collection(USERS + "/" + currentUser.getUid()+"/"+MY_WORKOUTS);
+            myWorkoutsRef = firestoreDb.collection(USERS).document(currentUser.getUid()).collection(MY_WORKOUTS);
 
-
-        collectionReference = firestoreDb.collection(ref);
+            collectionReference = firestoreDb.collection(ref);
+        }
 
 //    mCollectionReference = mFirebaseFirestore.collection("customers");
     }
@@ -110,23 +118,41 @@ public class JavaFirebaseUtil {
 
     }
 
+//    public static void newWorkout(Workout workout){
+//
+//       if (mAuth.getCurrentUser() != null){
+//           currentUser = mAuth.getCurrentUser();
+//           workoutsSubCollectionRef = firestoreDb.collection(USERS)
+//                   .document(currentUser.getUid()).collection(MY_WORKOUTS);
+//
+//           firestoreDb.collection("Users")
+//                   .document(currentUser.getUid())
+//                   .collection(MY_WORKOUTS)
+//                   .add(workout)
+//                   .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+//                       @Override
+//                       public void onSuccess(DocumentReference documentReference) {
+//                           Toast.makeText(caller.getBaseContext(), "Workout Added", Toast.LENGTH_LONG).show();
+//                       }
+//                   });
+//       }
+//    }
+
     public static void newWorkout(Workout workout){
 
-       if (mAuth.getCurrentUser() != null){
-           currentUser = mAuth.getCurrentUser();
-           workoutsCollectionRef = firestoreDb.collection(USERS)
-                   .document(currentUser.getUid()).collection(MY_WORKOUTS);
-           firestoreDb.collection("Users")
-                   .document(currentUser.getUid())
-                   .collection(MY_WORKOUTS)
-                   .add(workout)
-                   .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                       @Override
-                       public void onSuccess(DocumentReference documentReference) {
-                           Toast.makeText(caller.getBaseContext(), "Workout Added", Toast.LENGTH_LONG).show();
-                       }
-                   });
-       }
+        if (mAuth.getCurrentUser() != null){
+            currentUser = mAuth.getCurrentUser();
+            workoutsSubCollectionRef = firestoreDb.collection(USERS)
+                    .document(currentUser.getUid()).collection(MY_WORKOUTS);
+
+            myWorkoutsRef.add(workout)
+                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                        @Override
+                        public void onSuccess(DocumentReference documentReference) {
+                            Toast.makeText(caller.getBaseContext(), "Workout Added", Toast.LENGTH_LONG).show();
+                        }
+                    });
+        }
     }
 
     /**

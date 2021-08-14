@@ -7,8 +7,8 @@
     android:background="@color/grey_500"
     app:cardCornerRadius="12dp"
     android:layout_marginTop="8dp"
-    android:layout_marginStart="8dp"
-    android:layout_marginEnd="8dp">
+    android:layout_marginStart="12dp"
+    android:layout_marginEnd="12dp">
 
 
 
@@ -18,7 +18,7 @@
             android:background="@color/grey_500">
 
             <TextView
-                android:id="@+id/workout_name_textView"
+                android:id="@+id/rv_workout_name_textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -33,17 +33,16 @@
                 tools:text="Monday Mayhem" />
 
             <TextView
-                android:id="@+id/workout_duration_textView"
+                android:id="@+id/rv_workout_duration_textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="16dp"
+                android:layout_marginBottom="9dp"
                 android:fontFamily="@font/fira_sans_light"
                 android:textColor="@color/white"
                 android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/workout_name_textView"
-                app:layout_constraintTop_toBottomOf="@+id/workout_name_textView"
+                app:layout_constraintStart_toStartOf="@+id/rv_workout_name_textView"
+                app:layout_constraintTop_toBottomOf="@+id/rv_workout_name_textView"
                 tools:text="15" />
 
             <TextView
@@ -52,15 +51,15 @@
                 android:layout_marginStart="4dp"
                 android:layout_marginLeft="4dp"
                 android:fontFamily="@font/fira_sans_light"
-                tools:text="minutes"
+                android:text="minutes"
                 android:textColor="@color/white"
                 android:textSize="17sp"
-                app:layout_constraintBottom_toBottomOf="@+id/workout_duration_textView"
-                app:layout_constraintStart_toEndOf="@+id/workout_duration_textView"
-                app:layout_constraintTop_toTopOf="@+id/workout_duration_textView" />
+                app:layout_constraintBottom_toBottomOf="@+id/rv_workout_duration_textView"
+                app:layout_constraintStart_toEndOf="@+id/rv_workout_duration_textView"
+                app:layout_constraintTop_toTopOf="@+id/rv_workout_duration_textView" />
 
             <TextView
-                android:id="@+id/numSets_textView"
+                android:id="@+id/rv_numSets_textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="4dp"

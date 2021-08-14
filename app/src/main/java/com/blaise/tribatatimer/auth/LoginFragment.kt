@@ -25,6 +25,7 @@ class LoginFragment : Fragment() {
     //navaction for login to register fragment
     val gotoRegisterFragment = LoginFragmentDirections.actionLoginFragmentToRegisterFragment()
     val gotoMyWorkoutsFragment = LoginFragmentDirections.actionLoginFragmentToMyWorkoutsFragment()
+    val gotoPasswordReset = LoginFragmentDirections.actionLoginFragmentToResetPasswordFragment()
 
     private var _binding: LoginFragmentBinding? = null
 
@@ -36,7 +37,7 @@ class LoginFragment : Fragment() {
 
     companion object {
         fun newInstance() = LoginFragment()
-        private const val TAG = "LoginFragment"
+        const val TAG = "LoginFragment"
     }
 
     private lateinit var viewModel: LoginViewModel
@@ -59,6 +60,7 @@ class LoginFragment : Fragment() {
         val scrollView = binding.loginScrollView
         val loginButton = binding.loginButton
         val signUpTextView = binding.signupTextView
+        val forgotPasswordTextView = binding.forgotPasswordTextView
 
         //stopview from scrolling
         scrollView.setOnTouchListener { p0, p1 -> true }
@@ -79,6 +81,9 @@ class LoginFragment : Fragment() {
                 login(email, password) }
             }
 
+        forgotPasswordTextView.setOnClickListener {
+            findNavController().safeNavigate(gotoPasswordReset)
+        }
 
         signUpTextView.setOnClickListener { findNavController().safeNavigate(gotoRegisterFragment) }
         // TODO: Use the ViewModel
